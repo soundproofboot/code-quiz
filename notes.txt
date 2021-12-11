@@ -1,0 +1,20 @@
+How to store questinos
+
+I think the easiest way is to have an array that's a master list for all questions. at each index of the array there's an object representing a question and a response. It has key value pairs like so - 
+
+text: 'what is whatever',
+choices: ['this', 'that', 'the other', 'stuff'],
+correctIndex: (a number 0 to 3);
+
+That way I can access random questions by pulling a random index from the array of questions. Then i can pull the text for each question to display, the choices to display (which I can also randomize), and I can match the choice to the index of the correct choice to determine whether or not the right choice was selected. This makes sense right now but once I get into the weeds of it it may not work how I think.
+
+If I'm using this strategy I don't think I could randomize the order of the responses because I'm assigning the index of the correct response. There are other ways I could track which option is correct but those are more complicated.
+
+
+to change classes or style properties
+
+// timeLeftEl.classList.add('hidden');
+// timeLeftEl.classList.remove('hidden');
+
+// timeLeftEl.style.display = 'none';
+
