@@ -12,8 +12,14 @@ main {
     width: 60%;
     margin: 0 auto;
     margin-top: 200px;
+    text-align: center;
 }
 
 .result {
     display: none;
+}
+
+button {
+    padding: 20px;
+    border: solid black 1px;
 }
