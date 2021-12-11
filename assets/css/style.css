@@ -1,0 +1,19 @@
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+li {
+    color: white;
+    background-color: purple;
+}
+
+main {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+.result {
+    display: none;
+}
