@@ -8,28 +8,39 @@ let qNumber = 0;
 var timeLeft = 60;
 
 var listOfQuestions = [{
-    text: 'What is it?',
-    choices: ['stuff', 'thing', 'this', 'that'],
-    correctIndex: 1
+    text: 'Which of these is not a primitive data type?',
+    choices: ['string', 'number', 'boolean', 'array'],
+    correctIndex: 3
     }, {
-    text: 'Who is it?',
-        choices: ['me', 'you', 'them', 'us'],
+    text: 'True or False: Javascript and Java are the same',
+        choices: ['True', 'False'],
+        correctIndex: 1
+    }, {
+        text: 'Which HTML element do you use to link your Javascript file?',
+        choices: ['<script>', '<link>', '<javascript>', '<style>'],
+        correctIndex: 0
+    }, {
+        text: 'Which operator is required to check if BOTH parts of an if statement are true?',
+        choices: ['>>', '||', '&&', '++'],
         correctIndex: 2
-    }];
-
-// starts timer on click
-// startBtnEl.addEventListener('click', gameStart);
-
-// sets timer to start counting down
+    }, {
+        text: 'What is the proper syntax for a function?',
+        choices: ['function anyFunction() {}', 'anyFunction{} ()', 'function {}', 'func anyFunction({})'],
+        correctIndex: 0
+    }, {
+        text: 'True or False: For loops can be used to iterate through arrays',
+        choices: ['True', 'False'],
+        correctIndex: 0
+    }
+];
 
 let countdown = function () {
     if (timeLeft > 0) {
         var timer = setInterval(function() {
             timeLeft -= 1;
             timeLeftEl.textContent = `Time left: ${timeLeft}`;
-            if (timeLeft < 1 || qNumber+1 > listOfQuestions.length || qNumber === 999) {
+            if (timeLeft < 1 || qNumber+1 > listOfQuestions.length || qNumber === 'stop') {
                 clearInterval(timer);
-                endGame();
             }
         }, 1000);
     }
@@ -49,6 +60,7 @@ function displayQuestion(num) {
     // set that question's text as a heading
     let questionText = document.createElement('h1');
     questionText.innerText = question.text;
+    questionText.style.marginTop = '100px';
 
     // set the container for the options
     let answerList = document.createElement('ul');
@@ -68,8 +80,10 @@ function displayQuestion(num) {
         choice.style.margin = '5px';
         answerList.appendChild(choice);
         choice.addEventListener('click', function(e) {
+            
            if (correctAnswer === e.target.textContent) {
-               let response = document.createElement('h2');
+                e.target.style.backgroundColor = 'rgb(245, 90, 245)'
+               let response = document.createElement('h3');
                response.textContent = 'Correct! :)'
                mainSection.appendChild(response);
                qNumber++;
@@ -80,9 +94,10 @@ function displayQuestion(num) {
                     } else {
                         endGame();
                     }
-                }, 1000)
+                }, 500)
            } else if (correctAnswer !== e.target.textContent) {
-                let response = document.createElement('h2');
+                e.target.style.backgroundColor = 'red';
+                let response = document.createElement('h3');
                 response.textContent = 'Incorrect! :(';
                 mainSection.appendChild(response);                
                 qNumber++;
@@ -94,7 +109,7 @@ function displayQuestion(num) {
                     } else {
                         endGame();
                     }
-                }, 1000)
+                }, 500)
            }
         });
     }
@@ -102,37 +117,59 @@ function displayQuestion(num) {
 
 function endGame() {
     mainSection.innerHTML = '';
-    timeLeft = Math.max(timeLeft, 0);
-    timeLeftEl.textContent = `Time left: ${timeLeft}`;
-    let formEl = document.createElement('form');
-    mainSection.appendChild(formEl);
-    let inputEl = document.createElement('input');
-    inputEl.setAttribute('type', 'text');
-    inputEl.setAttribute('placeholder', 'Enter your initials');
-    let submitEl = document.createElement('input');
-    
+    if (timeLeft < 1) {
+        let timeUpEl = document.createElement('h1');
+        timeUpEl.textContent = `Sorry, you've run out of time!`
+        timeUpEl.style.marginTop = '200px';
+        mainSection.appendChild(timeUpEl);
 
-    submitEl.setAttribute('type', 'submit');
-    submitEl.addEventListener('click', function(e) {
-        e.preventDefault();
-        let score = {
-            name: inputEl.value,
-            score: timeLeft
-        };
-        formEl.style.display = 'none';
-        saveScore(score);
-        highScorePage(score);
+        let playAgain = document.createElement('button');
+        playAgain.textContent = 'Home';
+        playAgain.addEventListener('click', function() {
+        mainSection.innerHTML = '';
+        headerEl.style.display = 'flex';
+        openingPage();
     })
-    formEl.appendChild(inputEl);
-    formEl.appendChild(submitEl);
+    mainSection.appendChild(playAgain);
+
+    }
+    else {
+        timeLeft = Math.max(timeLeft, 0);
+        timeLeftEl.textContent = `Time left: ${timeLeft}`;
+        let formEl = document.createElement('form');
+        formEl.style.marginTop = '200px';
+        mainSection.appendChild(formEl);
+        let inputEl = document.createElement('input');
+        inputEl.setAttribute('type', 'text');
+        inputEl.setAttribute('placeholder', 'Enter your initials');
+        let submitEl = document.createElement('input');
+        submitEl.setAttribute('value', 'Submit');
+        
+    
+        submitEl.setAttribute('type', 'submit');
+        submitEl.addEventListener('click', function(e) {
+            e.target.style.backgroundColor = 'rgb(245, 90, 245)';
+            e.preventDefault();
+            let score = {
+                name: inputEl.value,
+                score: timeLeft
+            };
+            formEl.style.display = 'none';
+            saveScore(score);
+            highScorePage(score);
+        })
+        formEl.appendChild(inputEl);
+        formEl.appendChild(submitEl);
+    }
+
 }
 
 function highScorePage(obj) {
-    qNumber = 999;
     headerEl.style.display = 'none'
     mainSection.innerHTML = '';
 
     let scoresContainer = document.createElement('div');
+    scoresContainer.style.marginTop = '200px';
     mainSection.appendChild(scoresContainer);
     if (localStorage.length) {
         let scores = JSON.parse(localStorage.scores|| 'No scores');
@@ -151,24 +188,24 @@ function highScorePage(obj) {
 
 
     let playAgain = document.createElement('button');
-    playAgain.textContent = 'Play again';
+    playAgain.textContent = 'Home';
     playAgain.addEventListener('click', function() {
-        mainSection.removeChild(playAgain);
-        mainSection.removeChild(scoresContainer);
+        mainSection.innerHTML = '';
         headerEl.style.display = 'flex';
-        gameStart();
+        openingPage();
     })
     mainSection.appendChild(playAgain);
 
     // clear scores button
-    let clearScoresEl = document.createElement('button');
+    if (localStorage.length) {
+        let clearScoresEl = document.createElement('button');
     clearScoresEl.textContent = 'Clear high scores';
     clearScoresEl.addEventListener('click', function() {
         scoresContainer.innerHTML = '';
         localStorage.clear();
     });
     mainSection.appendChild(clearScoresEl);
-    
+    }
 }
 
 function saveScore(obj) {
@@ -189,8 +226,12 @@ viewHighScores.addEventListener('click', function() {
 });
 
 function openingPage() {
+    timeLeft = 60;
+    qNumber = 'stop';
+    timeLeftEl.textContent = `Time left: 60`;
     let openingHeading = document.createElement('h1');
     openingHeading.textContent = 'Coding Quiz Challenge';
+    openingHeading.style.marginTop = '100px';
     let openingP = document.createElement('p');
     openingP.textContent = 'Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by 10 seconds.';
     let startButtonEl = document.createElement('button');

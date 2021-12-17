@@ -1,30 +1,86 @@
+/* Universal selector, to set font and base font-size */
+* {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+}
+
+/* Styles for high score link and time left counter */
 header {
     display: flex;
     justify-content: space-between;
 }
 
-li {
-    color: white;
-    background-color: purple;
-}
-
+/* Starting styles for the main content area */
 main {
     width: 60%;
     margin: 0 auto;
-    margin-top: 200px;
     text-align: center;
 }
 
-.result {
-    display: none;
-}
-
-button {
-    padding: 20px;
-    border: solid black 1px;
-}
-
+/* selector to make li items stack */
 .column {
     display: flex;
     flex-direction: column;
+}
+
+/* style for View High Scores link */
+a {
+    background-color: yellow;
+    padding: 1em;
+    border-radius: 5px;
+    text-decoration: none;
+
+}
+
+/* style for time counter */
+header span {
+    align-self: center;
+    font-size: 1.5em;
+}
+
+/* Sets size for heading and question text */
+h1 {
+    font-size: 2em;
+}
+
+/* style for all buttons */
+button {
+    color: white;
+    background-color: purple;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 20px;
+}
+
+/* set's the flex properties for list of choices */
+ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* styles for answer choices */
+li {
+    color: white;
+    background-color: purple;
+    width: 50%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* styles for input elements to enter initials and submit */
+input {
+    padding: 20px;
+    margin: 10px;
+}
+
+/* styles for submit button itself */
+input[type=submit] {
+    background-color: purple;
+    color: white;
+}
+
+/* style for correct/incorrect after question is answered */
+h3 {
+    color: grey;
 }
