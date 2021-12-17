@@ -18,3 +18,4 @@ to change classes or style properties
 
 // timeLeftEl.style.display = 'none';
 
+change to dynamically generating everything in main
