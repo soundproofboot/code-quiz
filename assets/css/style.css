@@ -66,6 +66,8 @@ li {
     width: 50%;
     padding: 10px;
     border-radius: 5px;
+    text-align: left;
+    padding-left: 20px;
 }
 
 /* style for correct/incorrect after question is answered */
